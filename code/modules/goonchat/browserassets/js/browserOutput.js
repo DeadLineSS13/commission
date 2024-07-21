@@ -21,7 +21,7 @@ window.onerror = function(msg, url, line, col, error) {
 
 //Globals
 window.status = 'Output';
-var $messages, $subOptions, $subAudio, $selectedSub, $contextMenu, $filterMessages, $last_message;
+var $messages, $subTheme, $subOptions, $subFont, $selectedSub, $contextMenu, $filterMessages, $last_message;
 var opts = {
 	//General
 	'messageCount': 0, //A count...of messages...
@@ -29,12 +29,12 @@ var opts = {
 	'scrollSnapTolerance': 10, //If within x pixels of bottom
 	'clickTolerance': 10, //Keep focus if outside x pixels of mousedown position on mouseup
 	'imageRetryDelay': 50, //how long between attempts to reload images (in ms)
-	'imageRetryLimit': 50, //how many attempts should we make? 
+	'imageRetryLimit': 50, //how many attempts should we make?
 	'popups': 0, //Amount of popups opened ever
 	'wasd': false, //Is the user in wasd mode?
 	'priorChatHeight': 0, //Thing for height-resizing detection
 	'restarting': false, //Is the round restarting?
-	'darkmode':false, //Are we using darkmode? If not WHY ARE YOU LIVING IN 2009???
+	'iconsize': 12,
 
 	//Options menu
 	'selectedSubLoop': null, //Contains the interval loop for closing the selected sub menu
@@ -43,14 +43,6 @@ var opts = {
 	'highlightLimit': 5,
 	'highlightColor': '#FFFF00', //The color of the highlighted message
 	'pingDisabled': false, //Has the user disabled the ping counter
-
-	//Ping display
-	'lastPang': 0, //Timestamp of the last response from the server.
-	'pangLimit': 35000,
-	'pingTime': 0, //Timestamp of when ping sent
-	'pongTime': 0, //Timestamp of when ping received
-	'noResponse': false, //Tracks the state of the previous ping request
-	'noResponseCount': 0, //How many failed pings?
 
 	//Clicks
 	'mouseDownX': null,
@@ -61,16 +53,8 @@ var opts = {
 	'clientDataLimit': 5,
 	'clientData': [],
 
-	//Admin music volume update
-	'volumeUpdateDelay': 5000, //Time from when the volume updates to data being sent to the server
-	'volumeUpdating': false, //True if volume update function set to fire
-	'updatedVolume': 0, //The volume level that is sent to the server
-	'musicStartAt': 0, //The position the music starts playing
-	'musicEndAt': 0, //The position the music... stops playing... if null, doesn't apply (so the music runs through)
-	
-	'defaultMusicVolume': 25,
-
-	'messageCombining': false,
+	'font': 'Arial',
+	'messageCombining': true
 
 };
 var replaceRegexes = {};
@@ -161,7 +145,7 @@ function byondDecode(message) {
 	// The replace for + is because FOR SOME REASON, BYOND replaces spaces with a + instead of %20, and a plus with %2b.
 	// Marvelous.
 	message = message.replace(/\+/g, "%20");
-	try { 
+	try {
 		// This is a workaround for the above not always working when BYOND's shitty url encoding breaks. (byond bug id:2399401)
 		if (decodeURIComponent) {
 			message = decodeURIComponent(message);
@@ -252,6 +236,10 @@ function iconError(E) {
 	}, opts.imageRetryDelay);
 }
 
+function updateIconsSize(html) {
+	$(html).find(".icon").not('.text_tag').css({'height': opts.iconsize, 'width': opts.iconsize});
+}
+
 //Send a message to the client
 function output(message, flag) {
 	if (typeof message === 'undefined') {
@@ -323,9 +311,9 @@ function output(message, flag) {
 	//Stuff we do along with appending a message
 	var atBottom = false;
 	if (!filteredOut) {
-		var bodyHeight = $('body').height();
+		var bodyHeight = $('#scrollbar_content').scrollHeight;
 		var messagesHeight = $messages.outerHeight();
-		var scrollPos = $('body,html').scrollTop();
+		var scrollPos = $('#scrollbar_content').scrollTop();
 
 		//Should we snap the output to the bottom?
 		if (bodyHeight + scrollPos >= messagesHeight - opts.scrollSnapTolerance) {
@@ -346,6 +334,9 @@ function output(message, flag) {
 			} else {
 				$messages.after('<a href="#" id="newMessages"><span class="number">1</span> new <span class="messageWord">message</span> <i class="icon-double-angle-down"></i></a>');
 			}
+			evt = document.createEvent("Event");
+			evt.initEvent("messagenew", true, true);
+			document.dispatchEvent(evt);
 		}
 	}
 
@@ -375,7 +366,7 @@ function output(message, flag) {
 			} else {
 				badge = $('<span/>', {'class': 'r', 'text': 2});
 			}
-			lastmessages.html(message);
+			lastmessages.html(message.replace(/<br\s*\/?>\s*$/g,'&ensp;'));
 			lastmessages.find('[replaceRegex]').each(replaceRegex);
 			lastmessages.append(badge);
 			badge.animate({
@@ -403,6 +394,9 @@ function output(message, flag) {
 
 		$last_message = trimmed_message;
 		$messages[0].appendChild(entry);
+
+		updateIconsSize(entry);
+
 		$(entry).find("img.icon").error(iconError);
 
 		var to_linkify = $(entry).find(".linkify");
@@ -426,7 +420,7 @@ function output(message, flag) {
 	}
 
 	if (!filteredOut && atBottom) {
-		$('body,html').scrollTop($messages.outerHeight());
+		$('#scrollbar_content').scrollTop($messages.outerHeight());
 	}
 }
 
@@ -469,19 +463,6 @@ function toHex(n) {
 	return "0123456789ABCDEF".charAt((n-n%16)/16) + "0123456789ABCDEF".charAt(n%16);
 }
 
-function swap() { //Swap to darkmode
-	if (opts.darkmode){
-		document.getElementById("sheetofstyles").href = "browserOutput.css";
-		opts.darkmode = false;
-		runByond('?_src_=chat&proc=swaptolightmode');
-	} else {
-		document.getElementById("sheetofstyles").href = "browserOutput.css";
-		opts.darkmode = true;
-		runByond('?_src_=chat&proc=swaptodarkmode');
-	}
-	setCookie('darkmode', (opts.darkmode ? 'true' : 'false'), 365);
-}
-
 function handleClientData(ckey, ip, compid) {
 	//byond sends player info to here
 	var currentData = {'ckey': ckey, 'ip': ip, 'compid': compid};
@@ -494,8 +475,8 @@ function handleClientData(ckey, ip, compid) {
 				return; //Record already exists
 			}
 		}
-
-		if (opts.clientData.length >= opts.clientDataLimit) {
+		//Lets make sure we obey our limit (can connect from server with higher limit)
+		while (opts.clientData.length >= opts.clientDataLimit) {
 			opts.clientData.shift();
 		}
 	} else {
@@ -533,8 +514,6 @@ function ehjaxCallback(data) {
 	} else if (data == 'roundrestart') {
 		opts.restarting = true;
 		internalOutput('<div class="connectionClosed internal restarting">The connection has been closed because the server is restarting. Please wait while you automatically reconnect.</div>', 'internal');
-	} else if (data == 'stopMusic') {
-		$('#adminMusic').prop('src', '');
 	} else {
 		//Oh we're actually being sent data instead of an instruction
 		var dataJ;
@@ -557,36 +536,6 @@ function ehjaxCallback(data) {
 				return;
 			} else {
 				handleClientData(data.clientData.ckey, data.clientData.ip, data.clientData.compid);
-			}
-			sendVolumeUpdate();
-		} else if (data.adminMusic) {
-			if (typeof data.adminMusic === 'string') {
-				var adminMusic = byondDecode(data.adminMusic);
-				var bindLoadedData = false;
-				adminMusic = adminMusic.match(/https?:\/\/\S+/) || '';
-				if (data.musicRate) {
-					var newRate = Number(data.musicRate);
-					if(newRate) {
-						$('#adminMusic').prop('defaultPlaybackRate', newRate);
-					}
-				} else {
-					$('#adminMusic').prop('defaultPlaybackRate', 1.0);
-				}
-				if (data.musicSeek) {
-					opts.musicStartAt = Number(data.musicSeek) || 0;
-					bindLoadedData = true;
-				} else {
-					opts.musicStartAt = 0;
-				}
-				if (data.musicHalt) {
-					opts.musicEndAt = Number(data.musicHalt) || null;
-					bindLoadedData = true;
-				}
-				if (bindLoadedData) {
-					$('#adminMusic').one('loadeddata', adminMusicLoadedData);
-				}
-				$('#adminMusic').prop('src', adminMusic);
-				$('#adminMusic').trigger("play");
 			}
 		} else if (data.syncRegex) {
 			for (var i in data.syncRegex) {
@@ -619,34 +568,6 @@ function createPopup(contents, width) {
 
 function toggleWasd(state) {
 	opts.wasd = (state == 'on' ? true : false);
-}
-
-function sendVolumeUpdate() {
-	opts.volumeUpdating = false;
-	if(opts.updatedVolume) {
-		runByond('?_src_=chat&proc=setMusicVolume&param[volume]='+opts.updatedVolume);
-	}
-}
-
-function adminMusicEndCheck(event) {
-	if (opts.musicEndAt) {
-		if ($('#adminMusic').prop('currentTime') >= opts.musicEndAt) {
-			$('#adminMusic').off(event);
-			$('#adminMusic').trigger('pause');
-			$('#adminMusic').prop('src', '');
-		}
-	} else {
-		$('#adminMusic').off(event);
-	}
-}
-
-function adminMusicLoadedData(event) {
-	if (opts.musicStartAt && ($('#adminMusic').prop('duration') === Infinity || (opts.musicStartAt <= $('#adminMusic').prop('duration'))) ) {
-		$('#adminMusic').prop('currentTime', opts.musicStartAt);
-	}
-	if (opts.musicEndAt) {
-		$('#adminMusic').on('timeupdate', adminMusicEndCheck);
-	}
 }
 
 function subSlideUp() {
@@ -702,8 +623,9 @@ if (typeof $ === 'undefined') {
 
 $(function() {
 	$messages = $('#messages');
+	$subTheme = $('#subTheme');
 	$subOptions = $('#subOptions');
-	$subAudio = $('#subAudio');
+	$subFont = $('#subFont');
 	$selectedSub = $subOptions;
 
 	//Hey look it's a controller loop!
@@ -728,32 +650,35 @@ $(function() {
 	******************************************/
 	var savedConfig = {
 		fontsize: getCookie('fontsize'),
+		iconsize: getCookie('iconsize'),
 		lineheight: getCookie('lineheight'),
 		'spingDisabled': getCookie('pingdisabled'),
 		'shighlightTerms': getCookie('highlightterms'),
 		'shighlightColor': getCookie('highlightcolor'),
-		'smusicVolume': getCookie('musicVolume'),
+		'sfont': getCookie('font'),
 		'smessagecombining': getCookie('messagecombining'),
-		'sdarkmode': getCookie('darkmode'),
+		'stheme': getCookie('theme')
 	};
 
 	if (savedConfig.fontsize) {
 		$messages.css('font-size', savedConfig.fontsize);
 		internalOutput('<span class="internal boldnshit">Loaded font size setting of: '+savedConfig.fontsize+'</span>', 'internal');
 	}
+	if (savedConfig.iconsize) {
+		opts.iconsize = savedConfig.iconsize;
+		updateIconsSize($messages);
+		internalOutput('<span class="internal boldnshit">Loaded icon size setting of: '+savedConfig.iconsize+'</span>', 'internal');
+	}
 	if (savedConfig.lineheight) {
 		$("body").css('line-height', savedConfig.lineheight);
 		internalOutput('<span class="internal boldnshit">Loaded line height setting of: '+savedConfig.lineheight+'</span>', 'internal');
-	}
-	if(savedConfig.sdarkmode == 'true'){
-		swap();
 	}
 	if (savedConfig.spingDisabled) {
 		if (savedConfig.spingDisabled == 'true') {
 			opts.pingDisabled = true;
 			$('#ping').hide();
 		}
-		//internalOutput('<span class="internal boldnshit">Loaded ping display of: '+(opts.pingDisabled ? 'hidden' : 'visible')+'</span>', 'internal');
+		internalOutput('<span class="internal boldnshit">Loaded ping display of: '+(opts.pingDisabled ? 'hidden' : 'visible')+'</span>', 'internal');
 	}
 	if (savedConfig.shighlightTerms) {
 		var savedTerms = $.parseJSON(savedConfig.shighlightTerms);
@@ -765,26 +690,19 @@ $(function() {
 		}
 		if (actualTerms) {
 			actualTerms = actualTerms.substring(0, actualTerms.length - 2);
-			//internalOutput('<span class="internal boldnshit">Loaded highlight strings of: ' + actualTerms+'</span>', 'internal');
+			internalOutput('<span class="internal boldnshit">Loaded highlight strings of: ' + actualTerms+'</span>', 'internal');
 			opts.highlightTerms = savedTerms;
 		}
 	}
 	if (savedConfig.shighlightColor) {
 		opts.highlightColor = savedConfig.shighlightColor;
-		//internalOutput('<span class="internal boldnshit">Loaded highlight color of: '+savedConfig.shighlightColor+'</span>', 'internal');
+		internalOutput('<span class="internal boldnshit">Loaded highlight color of: '+savedConfig.shighlightColor+'</span>', 'internal');
 	}
-	if (savedConfig.smusicVolume) {
-		var newVolume = clamp(savedConfig.smusicVolume, 0, 100);
-		$('#adminMusic').prop('volume', newVolume / 100);
-		$('#musicVolume').val(newVolume);
-		opts.updatedVolume = newVolume;
-		sendVolumeUpdate();
-		//internalOutput('<span class="internal boldnshit">Loaded music volume of: '+savedConfig.smusicVolume+'</span>', 'internal');
+	if (savedConfig.sfont) {
+		$('body').css({'font-family': savedConfig.sfont});
+		internalOutput('<span class="internal boldnshit">Loaded font: '+savedConfig.sfont+'</span>', 'internal');
 	}
-	else{
-		$('#adminMusic').prop('volume', opts.defaultMusicVolume / 100);
-	}
-	
+
 	if (savedConfig.smessagecombining) {
 		if (savedConfig.smessagecombining == 'false') {
 			opts.messageCombining = false;
@@ -936,7 +854,7 @@ $(function() {
 	//Mildly hacky fix for scroll issues on mob change (interface gets resized sometimes, messing up snap-scroll)
 	$(window).on('resize', function(e) {
 		if ($(this).height() !== opts.priorChatHeight) {
-			$('body,html').scrollTop($messages.outerHeight());
+			$('#scrollbar_content').scrollTop($messages.outerHeight());
 			opts.priorChatHeight = $(this).height();
 		}
 	});
@@ -950,7 +868,7 @@ $(function() {
 
 	$('body').on('click', '#newMessages', function(e) {
 		var messagesHeight = $messages.outerHeight();
-		$('body,html').scrollTop(messagesHeight);
+		$('#scrollbar_content').scrollTop(messagesHeight);
 		$('#newMessages').remove();
 		runByond('byond://winset?mapwindow.map.focus=true');
 	});
@@ -958,11 +876,13 @@ $(function() {
 	$('#toggleOptions').click(function(e) {
 		handleToggleClick($subOptions, $(this));
 	});
-	$('#darkmodetoggle').click(function(e) {
-		swap();
+
+	$('#toggleTheme').click(function(e) {
+		handleToggleClick($subTheme, $(this));
 	});
-	$('#toggleAudio').click(function(e) {
-		handleToggleClick($subAudio, $(this));
+
+	$('#toggleFont').click(function(e) {
+		handleToggleClick($subFont, $(this));
 	});
 
 	$('.sub, .toggle').mouseenter(function() {
@@ -986,6 +906,22 @@ $(function() {
 		setCookie('fontsize', savedConfig.fontsize, 365);
 		internalOutput('<span class="internal boldnshit">Font size set to '+savedConfig.fontsize+'</span>', 'internal');
 	});
+
+	$('#decreaseIcon').click(function(e) {
+		savedConfig.iconsize = Math.max((parseInt(savedConfig.iconsize) || 12) - 1, 1);
+		updateIconsSize($messages);
+		setCookie('iconsize', savedConfig.iconsize, 365);
+		opts.iconsize = savedConfig.iconsize;
+		internalOutput('<span class="internal boldnshit">Icon size set to '+savedConfig.iconsize+'</span>', 'internal');
+	})
+
+	$('#increaseIcon').click(function(e) {
+		savedConfig.iconsize = (parseInt(savedConfig.iconsize || 12) + 1);
+		updateIconsSize($messages);
+		setCookie('iconsize', savedConfig.iconsize, 365);
+		opts.iconsize = savedConfig.iconsize;
+		internalOutput('<span class="internal boldnshit">Icon size set to '+savedConfig.iconsize+'</span>', 'internal');
+	})
 
 	$('#decreaseLineHeight').click(function(e) {
 		savedConfig.lineheight = Math.max(parseFloat(savedConfig.lineheight || 1.2) - 0.1, 0.1).toFixed(1);
@@ -1100,25 +1036,19 @@ $(function() {
 		$messages.empty();
 		opts.messageCount = 0;
 	});
-	
-	$('#musicVolumeSpan').hover(function() {
-		$('#musicVolumeText').addClass('hidden');
-		$('#musicVolume').removeClass('hidden');
+
+	$('#fontInputSpan').hover(function() {
+		$('#fontInput').removeClass('hidden');
 	}, function() {
-		$('#musicVolume').addClass('hidden');
-		$('#musicVolumeText').removeClass('hidden');
+		$('#fontInput').addClass('hidden');
 	});
 
-	$('#musicVolume').change(function() {
-		var newVolume = $('#musicVolume').val();
-		newVolume = clamp(newVolume, 0, 100);
-		$('#adminMusic').prop('volume', newVolume / 100);
-		setCookie('musicVolume', newVolume, 365);
-		opts.updatedVolume = newVolume;
-		if(!opts.volumeUpdating) {
-			setTimeout(sendVolumeUpdate, opts.volumeUpdateDelay);
-			opts.volumeUpdating = true;
-		}
+	$('#fontInput').change(function() {
+		var newFont = $('#fontInput').val() || 'Verdana, sans-serif';
+		$('body').css({'font-family': newFont});
+		setCookie('font', newFont, 365);
+		opts.font = newFont;
+		internalOutput('<span class="internal boldnshit">Font set to: '+newFont+'</span>', 'internal');
 	});
 
 	$('#toggleCombine').click(function(e) {
@@ -1127,9 +1057,9 @@ $(function() {
 	});
 
 	$('img.icon').error(iconError);
-	
-	
-		
+
+
+
 
 	/*****************************************
 	*

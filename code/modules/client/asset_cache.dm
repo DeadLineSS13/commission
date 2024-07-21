@@ -526,36 +526,58 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	children = list(
 		/datum/asset/simple/jquery,
 		/datum/asset/simple/goonchat,
-		/datum/asset/spritesheet/goonchat,
+		/datum/asset/simple/images,
 		/datum/asset/simple/fontawesome
 	)
 
 
+/datum/asset/simple/images
+	verify = FALSE
+	assets = list(
+		"chatbg.png"            			= 'code/modules/goonchat/browserassets/images/chatbg.png',
+		"chatscrollbar-bg.png"				= 'code/modules/goonchat/browserassets/images/chatscrollbar-bg.png',
+		"chatscrollbar-scrolldown.png"		= 'code/modules/goonchat/browserassets/images/chatscrollbar-scrolldown.png',
+		"chatscrollbar-scrollup.png"		= 'code/modules/goonchat/browserassets/images/chatscrollbar-scrollup.png',
+		"chatscroller-b.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-b.png',
+		"chatscroller-m.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-m.png',
+		"chatscroller-t.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-t.png',
+		"chatshadow.png"					= 'code/modules/goonchat/browserassets/images/chatshadow.png',
+		"helpbg.png"						= 'code/modules/goonchat/browserassets/images/helpbg.png',
+		"tchatbg.png"						= 'code/modules/goonchat/browserassets/images/tchatbg.png',
+		"tchatscrollbar-bg.png"				= 'code/modules/goonchat/browserassets/images/tchatscrollbar-bg.png',
+		"tchatscroller-b.png"				= 'code/modules/goonchat/browserassets/images/tchatscroller-b.png',
+		"tchatscroller-m.png"				= 'code/modules/goonchat/browserassets/images/tchatscroller-m.png',
+		"tchatscroller-t.png"				= 'code/modules/goonchat/browserassets/images/tchatscroller-t.png',
+		"tchatshadow.png"					= 'code/modules/goonchat/browserassets/images/tchatshadow.png',
+		"tst.png"							= 'code/modules/goonchat/browserassets/images/tst.png',
+		"tst2.png"							= 'code/modules/goonchat/browserassets/images/tst2.png'
+	)
+
 /datum/asset/simple/jquery
 	verify = FALSE
-/*	assets = list(
+	assets = list(
 		"jquery.min.js"            = 'code/modules/goonchat/browserassets/js/jquery.min.js',
-	)*/
+	)
 
 /datum/asset/simple/goonchat
-	verify = FALSE
-/*	assets = list(
+	verify = TRUE
+	assets = list(
 		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
+		"scrollbar.js"         	   = 'code/modules/goonchat/browserassets/js/scrollbar.js',
 		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
-		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
-		"browserOutput_white.css"	      = 'code/modules/goonchat/browserassets/css/browserOutput.css',
-	)*/
+		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css'
+	)
 
 /datum/asset/simple/fontawesome
 	verify = FALSE
-/*	assets = list(
+	assets = list(
 		"fa-regular-400.eot"  = 'html/font-awesome/webfonts/fa-regular-400.eot',
 		"fa-regular-400.woff" = 'html/font-awesome/webfonts/fa-regular-400.woff',
 		"fa-solid-900.eot"    = 'html/font-awesome/webfonts/fa-solid-900.eot',
 		"fa-solid-900.woff"   = 'html/font-awesome/webfonts/fa-solid-900.woff',
 		"font-awesome.css"    = 'html/font-awesome/css/all.min.css',
 		"v4shim.css"          = 'html/font-awesome/css/v4-shims.min.css'
-	)*/
+	)
 
 /datum/asset/simple/blackedstone_class_menu_slop_layout
 	verify = FALSE
