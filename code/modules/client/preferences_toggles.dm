@@ -502,3 +502,18 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 		return
 	prefs.asaycolor = initial(prefs.asaycolor)
 	prefs.save_preferences()
+
+/client/verb/toggletitlemusic()
+	set name = "LobbyMusic"
+	set category = "Preferences"
+	set desc = "Toggles hearing the GameLobby music"
+	prefs.toggles ^= SOUND_LOBBY
+	prefs.save_preferences()
+	if(prefs.toggles & SOUND_LOBBY)
+		to_chat(src, "You will now hear music in the game lobby.")
+		if(istype(mob, /mob/dead/new_player))
+			playtitlemusic()
+	else
+		to_chat(src, "You will no longer hear music in the game lobby.")
+		if(istype(mob, /mob/dead/new_player))
+			usr.stop_sound_channel(CHANNEL_LOBBYMUSIC)

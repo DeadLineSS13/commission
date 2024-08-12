@@ -178,7 +178,7 @@ and set its desc to what you want the verb to appear as in the statpanel.
 
 
 /client/proc/optionsUpdate()
-	return "<tr><td>" + generateVerbList(list(list("OOC", "OOC"), list("Adminhelp", "Admin Help"), list(".togglefullscreen", "Toggle Fullscreen"), list("LobbyMusic", "Toggle Lobby Music"), list("Midis", "Toggle Midis"), list("Fix Chat", "Fix chat"), list("AmbiVolume", "Ambience Volume (0-255)"), list("MusicVolume", "Music Volume (0, 255)"))) + "</td></tr>"
+	return "<tr><td>" + generateVerbList(list(list("OOC", "OOC"), list("Adminhelp", "Admin Help"), list(".togglefullscreen", "Toggle Fullscreen"), list("LobbyMusic", "Toggle Lobby Music"), list("FixChat", "Fix chat"))) + "</td></tr>"
 
 
 /client/proc/chromeUpdate()

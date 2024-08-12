@@ -121,6 +121,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/musicvol = 50
 	var/mastervol = 50
 
+	var/fullscreenSetting = 1
+
 	var/anonymize = TRUE
 
 	var/lastclass
@@ -2512,3 +2514,14 @@ Slots: [job.spawn_positions]</span>
 			return
 		else
 			custom_names[name_id] = sanitized_name
+
+/client/verb/ToggleFullscreen()
+	set name = ".togglefullscreen"
+	set category = "OOC"
+	src.prefs.fullscreenSetting = !src.prefs.fullscreenSetting
+	if(src.prefs.fullscreenSetting)
+		winset(src, "mainwindow", "is-maximized=false;can-resize=false;titlebar=false;menu=")
+		winset(src, "mainwindow", "is-maximized=true")
+	else
+		winset(src, "mainwindow", "is-maximized=false;can-resize=true;titlebar=true;menu=menu")
+	src.prefs.save_preferences()

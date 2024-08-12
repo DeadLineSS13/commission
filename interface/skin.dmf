@@ -120,7 +120,7 @@ window "outputwindow"
 	elem "browseroutput"
 		type = BROWSER
 		pos = 0,316
-		size = 640x348
+		size = 640x364
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = #ffffff
@@ -128,8 +128,8 @@ window "outputwindow"
 		saved-params = ""
 	elem "saybox"
 		type = INPUT
-		pos = 0,688
-		size = 640x23
+		pos = 0,680
+		size = 640x24
 		anchor1 = 0,100
 		anchor2 = 100,100
 		font-size = 12
@@ -142,7 +142,7 @@ window "outputwindow"
 		on-blur = ".destroy_indicator"
 	elem "csay"
 		type = INPUT
-		pos = 0,664
+		pos = 0,657
 		size = 640x23
 		anchor1 = 0,100
 		anchor2 = 100,100
