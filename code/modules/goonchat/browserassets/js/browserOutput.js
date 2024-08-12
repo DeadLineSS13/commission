@@ -311,7 +311,7 @@ function output(message, flag) {
 	//Stuff we do along with appending a message
 	var atBottom = false;
 	if (!filteredOut) {
-		var bodyHeight = $('#scrollbar_content').scrollHeight;
+		var bodyHeight = $('#scrollbar_content').height();
 		var messagesHeight = $messages.outerHeight();
 		var scrollPos = $('#scrollbar_content').scrollTop();
 
@@ -334,9 +334,6 @@ function output(message, flag) {
 			} else {
 				$messages.after('<a href="#" id="newMessages"><span class="number">1</span> new <span class="messageWord">message</span> <i class="icon-double-angle-down"></i></a>');
 			}
-			evt = document.createEvent("Event");
-			evt.initEvent("messagenew", true, true);
-			document.dispatchEvent(evt);
 		}
 	}
 
@@ -418,6 +415,12 @@ function output(message, flag) {
 			highlightTerms(entry);
 		}
 	}
+
+	evt = document.createEvent("Event");
+	evt.initEvent("resize", true, true);
+	document.dispatchEvent(evt);
+
+	$messages.after("height ", $('#scrollbar_content').height(), "; outerHeight ", $messages.outerHeight(), "; ScrollTop ", $('#scrollbar_content').scrollTop(), " ");
 
 	if (!filteredOut && atBottom) {
 		$('#scrollbar_content').scrollTop($messages.outerHeight());

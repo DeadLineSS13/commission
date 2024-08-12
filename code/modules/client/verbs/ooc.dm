@@ -352,7 +352,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 //			return "0"
 
 /client/verb/fix_chat()
-	set name = "Fix Chat"
+	set name = "FixChat"
 	set category = "Options"
 	if (!chatOutput || !istype(chatOutput))
 		var/action = alert(src, "Invalid Chat Output data found!\nRecreate data?", "Wot?", "Recreate Chat Output data", "Cancel")

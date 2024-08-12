@@ -112,7 +112,6 @@ var ssb = {
 	  addEvent(window.document, 'mousemove', ssb.onmousemove);
 	  addEvent(window.document, 'mouseup', ssb.onmouseup);
 	  addEvent(window, 'resize', ssb.refresh);
-	  addEvent(window, 'newmessage', ssb.refresh);
 	  return true;
 	},
 	
