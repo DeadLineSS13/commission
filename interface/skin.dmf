@@ -126,7 +126,7 @@ window "outputwindow"
 		background-color = #ffffff
 		is-visible = false
 		saved-params = ""
-	elem "saybox"
+	elem "input"
 		type = INPUT
 		pos = 0,680
 		size = 640x24
@@ -138,8 +138,6 @@ window "outputwindow"
 		is-default = true
 		saved-params = ""
 		command = "say"
-		on-focus = ".create_indicator"
-		on-blur = ".destroy_indicator"
 	elem "csay"
 		type = INPUT
 		pos = 0,657
