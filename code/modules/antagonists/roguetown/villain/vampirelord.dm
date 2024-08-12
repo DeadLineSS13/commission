@@ -76,11 +76,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	eyes = new /obj/item/organ/eyes/night_vision/zombie
 	eyes.Insert(owner.current)
 	owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix)
-	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
-	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
+	owner.current.add_verb(/mob/living/carbon/human/proc/vamp_regenerate)
+	owner.current.add_verb(/mob/living/carbon/human/proc/vampire_telepathy)
 	vamp_look()
 	if(isspawn)
-		owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
+		owner.current.add_verb(/mob/living/carbon/human/proc/disguise_button)
 		add_objective(/datum/objective/vlordserve)
 		finalize_vampire_lesser()
 		for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
@@ -91,8 +91,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 	else
 		forge_vampirelord_objectives()
 		finalize_vampire()
-		owner.current.verbs |= /mob/living/carbon/human/proc/demand_submission
-		owner.current.verbs |= /mob/living/carbon/human/proc/punish_spawn
+		owner.current.add_verb(/mob/living/carbon/human/proc/demand_submission)
+		owner.current.add_verb(/mob/living/carbon/human/proc/punish_spawn)
 		for(var/obj/structure/vampire/bloodpool/mansion in GLOB.vampire_objects)
 			mypool = mansion
 		equip_lord()
@@ -444,7 +444,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			to_chat(owner, "<font color='red'>I am refreshed and have grown stronger. The visage of the bat is once again available to me. I can also once again access my portals.</font>")
 		if(1)
 			vamplevel = 2
-			owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+			owner.current.add_verb(/mob/living/carbon/human/proc/vamp_regenerate)
 			owner.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodsteal)
 			owner.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
 			owner.adjust_skillrank(/datum/skill/magic/blood, 3, TRUE)
@@ -459,8 +459,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			vamplevel = 3
 			for(var/obj/structure/vampire/necromanticbook/S in GLOB.vampire_objects)
 				S.unlocked = TRUE
-			owner.current.verbs |= /mob/living/carbon/human/proc/blood_strength
-			owner.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
+			owner.current.add_verb(/mob/living/carbon/human/proc/blood_strength)
+			owner.current.add_verb(/mob/living/carbon/human/proc/blood_celerity)
 			owner.current.RemoveSpell(/obj/effect/proc_holder/spell/targeted/transfix)
 			owner.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix/master)
 			for(var/S in MOBSTATS)
@@ -475,9 +475,9 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			C.ascended = TRUE
 			for(var/datum/mind/thrall in C.vampires)
 				if(thrall.special_role == "Vampire Spawn")
-					thrall.current.verbs |= /mob/living/carbon/human/proc/blood_strength
-					thrall.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
-					thrall.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+					thrall.current.add_verb(/mob/living/carbon/human/proc/blood_strength)
+					thrall.current.add_verb(/mob/living/carbon/human/proc/blood_celerity)
+					thrall.current.add_verb(/mob/living/carbon/human/proc/vamp_regenerate)
 					for(var/S in MOBSTATS)
 						thrall.current.change_stat(S, 2)
 	return
@@ -842,7 +842,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 
 /datum/antagonist/skeleton/knight/on_gain()
 	. = ..()
-	owner.current.verbs |= /mob/living/carbon/human/proc/vampire_telepathy
+	owner.current.add_verb(/mob/living/carbon/human/proc/vampire_telepathy)
 	owner.unknow_all_people()
 	for(var/datum/mind/MF in get_minds())
 		owner.become_unknown_to(MF)
@@ -1182,12 +1182,11 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 /mob/dead/observer/rogue/arcaneeye/Initialize()
 	. = ..()
 	set_invisibility(GLOB.observer_default_invisibility)
-	verbs += list(
-		/mob/dead/observer/rogue/arcaneeye/proc/scry_tele,
-		/mob/dead/observer/rogue/arcaneeye/proc/cancel_scry,
-		/mob/dead/observer/rogue/arcaneeye/proc/eye_down,
-		/mob/dead/observer/rogue/arcaneeye/proc/eye_up,
-		/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy)
+	add_verb(/mob/dead/observer/rogue/arcaneeye/proc/scry_tele)
+	add_verb(/mob/dead/observer/rogue/arcaneeye/proc/cancel_scry)
+	add_verb(/mob/dead/observer/rogue/arcaneeye/proc/eye_down)
+	add_verb(/mob/dead/observer/rogue/arcaneeye/proc/eye_up)
+	add_verb(/mob/dead/observer/rogue/arcaneeye/proc/vampire_telepathy)
 	testing("BEGIN LOC [loc]")
 	name = "Arcane Eye"
 	grant_all_languages()

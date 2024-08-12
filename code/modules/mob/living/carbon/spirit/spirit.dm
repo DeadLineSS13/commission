@@ -44,8 +44,8 @@
 /mob/living/carbon/spirit/Initialize(mapload, cubespawned=FALSE, mob/spawner)
 	set_light(2, 2, "#547fa4")
 	coin_upkeep()
-	verbs += /mob/living/proc/mob_sleep
-	verbs += /mob/living/proc/lay_down
+	add_verb(/mob/living/proc/mob_sleep)
+	add_verb(/mob/living/proc/lay_down)
 	ADD_TRAIT(src, TRAIT_PACIFISM, TRAIT_GENERIC)
 	var/first_part = pick("Sorrowful", "Forlorn", "Regretful", "Piteous", "Rueful", "Dejected", "Desolate", "Mournful", "Melancholic", "Woeful")
 	var/second_part = pick("Wanderer", "Traveler", "Pilgrim", "Vagabond", "Nomad", "Wayfarer", "Spirit", "Specter", "Wraith", "Phantom")

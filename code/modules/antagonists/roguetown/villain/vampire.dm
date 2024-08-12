@@ -81,12 +81,12 @@
 //		if(isnull(batform))
 //			batform = new
 //			owner.current.AddSpell(batform)
-	owner.current.verbs |= /mob/living/carbon/human/proc/disguise_button
-	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
+	owner.current.add_verb(/mob/living/carbon/human/proc/disguise_button)
+	owner.current.add_verb(/mob/living/carbon/human/proc/vamp_regenerate)
 	if(!is_lesser)
-		owner.current.verbs |= /mob/living/carbon/human/proc/blood_strength
-		owner.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
-		owner.current.verbs |= /mob/living/carbon/human/proc/blood_fortitude
+		owner.current.add_verb(/mob/living/carbon/human/proc/blood_strength)
+		owner.current.add_verb(/mob/living/carbon/human/proc/blood_celerity)
+		owner.current.add_verb(/mob/living/carbon/human/proc/blood_fortitude)
 
 	return ..()
 

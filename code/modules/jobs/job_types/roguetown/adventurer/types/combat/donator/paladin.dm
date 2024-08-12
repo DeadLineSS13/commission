@@ -144,4 +144,4 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	//Max devotion limit - Paladins are stronger but cannot pray to gain all abilities beyond t1
 	C.grant_spells_templar(H)
-	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	H.add_verb(list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray))

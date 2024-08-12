@@ -181,7 +181,7 @@
 		var/mob/living/carbon/human/H = src
 		H.mode = AI_OFF
 	if(client)
-		client.verbs += /client/proc/lobbyooc
+		client.add_verb(/client/proc/lobbyooc)
 
 /client/proc/show_game_over()
 	var/atom/movable/screen/splash/credits/S = new(src, FALSE)
@@ -474,7 +474,7 @@
 	if(!previous)
 		var/list/report_parts = list(personal_report(C), GLOB.common_report)
 		content = report_parts.Join()
-		C.verbs -= /client/proc/show_previous_roundend_report
+		C.remove_verb(/client/proc/show_previous_roundend_report)
 		fdel(filename)
 		text2file(content, filename)
 	else

@@ -435,13 +435,13 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 						to_chat(src, span_holoparasite("<font color=\"[G.namedatum.colour]\"><b>[G.real_name]</b></font> has been summoned!"))
 				guardians -= G
 				if(!guardians.len)
-					verbs -= /mob/living/proc/guardian_reset
+					remove_verb(/mob/living/proc/guardian_reset)
 			else
 				to_chat(src, span_holoparasite("There were no ghosts willing to take control of <font color=\"[G.namedatum.colour]\"><b>[G.real_name]</b></font>. Looks like you're stuck with it for now."))
 		else
 			to_chat(src, span_holoparasite("I decide not to reset [guardians.len > 1 ? "any of my guardians":"your guardian"]."))
 	else
-		verbs -= /mob/living/proc/guardian_reset
+		remove_verb(/mob/living/proc/guardian_reset)
 
 ////////parasite tracking/finding procs
 
@@ -568,9 +568,9 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 		if("carp")
 			to_chat(user, "[G.carp_fluff_string]")
 			to_chat(user, span_holoparasite("<font color=\"[G.namedatum.colour]\"><b>[G.real_name]</b></font> has been caught!"))
-	user.verbs += /mob/living/proc/guardian_comm
-	user.verbs += /mob/living/proc/guardian_recall
-	user.verbs += /mob/living/proc/guardian_reset
+	user.add_verb(/mob/living/proc/guardian_comm)
+	user.add_verb(/mob/living/proc/guardian_recall)
+	user.add_verb(/mob/living/proc/guardian_reset)
 
 /obj/item/guardiancreator/choose
 	random = FALSE

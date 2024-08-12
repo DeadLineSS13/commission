@@ -86,7 +86,7 @@
 		if(!(H.hairstyle in acceptable))
 			H.hairstyle = pick(acceptable)
 			H.update_hair()
-	H.verbs |= /mob/proc/haltyell
+	H.add_verb(/mob/proc/haltyell)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 

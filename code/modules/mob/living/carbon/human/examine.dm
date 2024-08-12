@@ -50,7 +50,7 @@
 		obscure_name = FALSE
 
 	if(obscure_name)
-		. = list("<span class='info'>ø ------------ ø\nThis is <EM>Unknown</EM>.")
+		. = list("<div class='firstdivexamineplyr'><div class='boxexamineplyr'><span class='statustext'>This is <EM>Unknown</EM>.")
 	else
 		on_examine_face(user)
 		var/used_name = name
@@ -62,13 +62,13 @@
 			if(J.f_title && (t_He == "She"))
 				used_title = J.f_title
 			if(J.wanderer_examine)
-				. = list("<span class='info'>ø ------------ ø\nThis is <EM>[used_name]</EM>, the wandering [race_name].")
+				. = list("<div class='firstdivexamineplyr'><div class='boxexamineplyr'><span class='statustext'>This is <EM>[used_name]</EM>, the wandering [race_name].")
 			else
 				if(J.advjob_examine)
 					used_title = advjob
-				. = list("<span class='info'>ø ------------ ø\nThis is <EM>[used_name]</EM>, the [islatejoin ? "returning " : ""][race_name] [used_title].")
+				. = list("<div class='firstdivexamineplyr'><div class='boxexamineplyr'><span class='statustext'>This is <EM>[used_name]</EM>, the [islatejoin ? "returning " : ""][race_name] [used_title].")
 		else
-			. = list("<span class='info'>ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name].")
+			. = list("<div class='firstdivexamineplyr'><div class='boxexamineplyr'><span class='statustext'>This is the <EM>[used_name]</EM>, the [race_name].")
 		
 		if(GLOB.lord_titles[name])
 			. += span_notice("[m3] been granted the title of \"[GLOB.lord_titles[name]]\".")
@@ -147,7 +147,7 @@
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 
 	if(wear_shirt && !(SLOT_SHIRT in obscured))
-		. += "[m3] [wear_shirt.get_examine_string(user)]."
+		. += "<span class='statustext'>[m3] [wear_shirt.get_examine_string(user)].</span>"
 
 	//uniform
 	if(wear_pants && !(SLOT_PANTS in obscured))
@@ -158,42 +158,42 @@
 			if(U.attached_accessory)
 				accessory_msg += " with [icon2html(U.attached_accessory, user)] \a [U.attached_accessory]"
 
-		. += "[m3] [wear_pants.get_examine_string(user)][accessory_msg]."
+		. += "<span class='statustext'>[m3] [icon2html(wear_pants, user)] [wear_pants.get_examine_string(user)][accessory_msg].</span>"
 
 	//head
 	if(head && !(SLOT_HEAD in obscured))
-		. += "[m3] [head.get_examine_string(user)] on [m2] head."
+		. += "<span class='statustext'>[m3] [icon2html(head, user)] [head.get_examine_string(user)] on [m2] head.</span>"
 	//suit/armor
 	if(wear_armor && !(SLOT_ARMOR in obscured))
-		. += "[m3] [wear_armor.get_examine_string(user)]."
+		. += "<span class='statustext'>[m3] [icon2html(wear_armor, user)] [wear_armor.get_examine_string(user)].</span>"
 		//suit/armor storage
 		if(s_store && !(SLOT_S_STORE in obscured))
-			. += "[m1] carrying [s_store.get_examine_string(user)] on [m2] [wear_armor.name]."
+			. += "<span class='statustext'>[m1] carrying [icon2html(s_store, user)] [s_store.get_examine_string(user)] on [m2] [icon2html(wear_armor, user)] [wear_armor.name].</span>"
 	//back
 //	if(back)
 //		. += "[m3] [back.get_examine_string(user)] on [m2] back."
 
 	//cloak
 	if(cloak && !(SLOT_CLOAK in obscured))
-		. += "[m3] [cloak.get_examine_string(user)] on [m2] shoulders."
+		. += "<span class='statustext'>[m3] [icon2html(cloak, user)] [cloak.get_examine_string(user)] on [m2] shoulders.</span>"
 
 	//right back
 	if(backr && !(SLOT_BACK_R in obscured))
-		. += "[m3] [backr.get_examine_string(user)] on [m2] back."
+		. += "<span class='statustext'>[m3] [icon2html(backr, user)] [backr.get_examine_string(user)] on [m2] back.</span>"
 
 	//left back
 	if(backl && !(SLOT_BACK_L in obscured))
-		. += "[m3] [backl.get_examine_string(user)] on [m2] back."
+		. += "<span class='statustext'>[m3] [icon2html(backl, user)] [backl.get_examine_string(user)] on [m2] back.</span>"
 
 	//Hands
 	for(var/obj/item/I in held_items)
 		if(!(I.item_flags & ABSTRACT))
-			. += "[m1] holding [I.get_examine_string(user)] in [m2] [get_held_index_name(get_held_index_of_item(I))]."
+			. += "<span class='statustext'>[m1] holding [icon2html(I, user)] [I.get_examine_string(user)] in [m2] [icon2html(get_held_index_of_item(I), user)] [get_held_index_name(get_held_index_of_item(I))].</span>"
 
 	var/datum/component/forensics/FR = GetComponent(/datum/component/forensics)
 	//gloves
 	if(gloves && !(SLOT_GLOVES in obscured))
-		. += "[m3] [gloves.get_examine_string(user)] on [m2] hands."
+		. += "<span class='statustext'>[m3] [icon2html(gloves, user)] [gloves.get_examine_string(user)] on [m2] hands.</span>"
 	else if(FR && length(FR.blood_DNA))
 		var/hand_number = get_num_arms(FALSE)
 		if(hand_number)
@@ -201,57 +201,57 @@
 
 	//belt
 	if(belt && !(SLOT_BELT in obscured))
-		. += "[m3] [belt.get_examine_string(user)] about [m2] waist."
+		. += "<span class='statustext'>[m3] [icon2html(belt, user)] [belt.get_examine_string(user)] about [m2] waist.</span>"
 
 	//right belt
 	if(beltr && !(SLOT_BELT_R in obscured))
-		. += "[m3] [beltr.get_examine_string(user)] on [m2] belt."
+		. += "<span class='statustext'>[m3] [icon2html(beltr, user)] [beltr.get_examine_string(user)] on [m2] belt.</span>"
 
 	//left belt
 	if(beltl && !(SLOT_BELT_L in obscured))
-		. += "[m3] [beltl.get_examine_string(user)] on [m2] belt."
+		. += "<span class='statustext'>[m3] [icon2html(beltl, user)] [beltl.get_examine_string(user)] on [m2] belt.</span>"
 
 	//shoes
 	if(shoes && !(SLOT_SHOES in obscured))
-		. += "[m3] [shoes.get_examine_string(user)] on [m2] feet."
+		. += "<span class='statustext'>[m3] [icon2html(shoes, user)] [shoes.get_examine_string(user)] on [m2] feet.</span>"
 
 	//mask
 	if(wear_mask && !(SLOT_WEAR_MASK in obscured))
-		. += "[m3] [wear_mask.get_examine_string(user)] on [m2] face."
+		. += "<span class='statustext'>[m3] [icon2html(wear_mask, user)] [wear_mask.get_examine_string(user)] on [m2] face.</span>"
 
 	//mouth
 	if(mouth && !(SLOT_MOUTH in obscured))
-		. += "[m3] [mouth.get_examine_string(user)] in [m2] mouth."
+		. += "<span class='statustext'>[m3] [icon2html(mouth, user)] [mouth.get_examine_string(user)] in [m2] mouth.</span>"
 
 	//neck
 	if(wear_neck && !(SLOT_NECK in obscured))
-		. += "[m3] [wear_neck.get_examine_string(user)] around [m2] neck."
+		. += "<span class='statustext'>[m3] [icon2html(wear_neck, user)] [wear_neck.get_examine_string(user)] around [m2] neck.</span>"
 
 	//eyes
 	if(!(SLOT_GLASSES in obscured))
 		if(glasses)
-			. += "[m3] [glasses.get_examine_string(user)] covering [m2] eyes."
+			. += "<span class='statustext'>[m3] [icon2html(glasses, user)] [glasses.get_examine_string(user)] covering [m2] eyes.</span>"
 		else if(eye_color == BLOODCULT_EYE && iscultist(src) && HAS_TRAIT(src, CULT_EYES))
 			. += span_warning("<B>[m2] eyes are glowing an unnatural red!</B>")
 
 	//ears
 	if(ears && !(SLOT_HEAD in obscured))
-		. += "[m3] [ears.get_examine_string(user)] on [m2] ears."
+		. += "<span class='statustext'>[m3] [icon2html(ears, user)] [ears.get_examine_string(user)] on [m2] ears.</span>"
 
 	//ID
 	if(wear_ring && !(SLOT_RING in obscured))
-		. += "[m3] [wear_ring.get_examine_string(user)] on [m2] hands."
+		. += "<span class='statustext'>[m3] [icon2html(wear_ring, user)] [wear_ring.get_examine_string(user)] on [m2] hands.</span>"
 
 	//wrists
 	if(wear_wrists && !(SLOT_WRISTS in obscured))
-		. += "[m3] [wear_wrists.get_examine_string(user)] on [m2] wrists."
+		. += "<span class='statustext'>[m3] [icon2html(wear_wrists, user)] [wear_wrists.get_examine_string(user)] on [m2] wrists.</span>"
 
 	//handcuffed?
 	if(handcuffed)
-		. += "<A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'><span class='warning'>[m1] tied up with \a [handcuffed]!</span></A>"
+		. += "<A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'><span class='combat'>[m1] tied up with [icon2html(handcuffed, user)] \a [handcuffed]!</span></A>"
 
 	if(legcuffed)
-		. += "<A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'><span class='warning'>[m3] \a [legcuffed] around [m2] legs!</span></A>"
+		. += "<A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'><span class='combat'>[m3] [icon2html(legcuffed, user)] \a [legcuffed] around [m2] legs!</span></A>"
 
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
@@ -538,7 +538,7 @@
 					"<a href='?src=[REF(src)];hud=s;add_crime=1'>\[Add crime\]</a>",
 					"<a href='?src=[REF(src)];hud=s;view_comment=1'>\[View comment log\]</a>",
 					"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
-	. += "ø ------------ ø</span>"
+	. += "</span></div></div>"
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
 	var/list/dat = list()

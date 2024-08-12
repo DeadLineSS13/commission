@@ -61,11 +61,11 @@
 		H.change_stat("speed", -1)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron) // This creates the cleric holder used for devotion spells
 	C.grant_spells_priest(H)
-	H.verbs += list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray)
+	H.add_verb(list(/mob/living/carbon/human/proc/devotionreport, /mob/living/carbon/human/proc/clericpray))
 
-	H.verbs |= /mob/living/carbon/human/proc/coronate_lord
-	H.verbs |= /mob/living/carbon/human/proc/churchexcommunicate
-	H.verbs |= /mob/living/carbon/human/proc/churchannouncement
+	H.add_verb(/mob/living/carbon/human/proc/coronate_lord)
+	H.add_verb(/mob/living/carbon/human/proc/churchexcommunicate)
+	H.add_verb(/mob/living/carbon/human/proc/churchannouncement)
 //	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
 //		H.underwear = "Femleotard"
 //		H.underwear_color = CLOTHING_BLACK

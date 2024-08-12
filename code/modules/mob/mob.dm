@@ -430,7 +430,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(isturf(A.loc) && isliving(src))
 		face_atom(A)
-		visible_message(span_emote("[src] looks at [A]."))
+		visible_message("<span class='looksatbold'>[src]</span> <span class='looksat'>looks at [A].</span>")
 	var/list/result = A.examine(src)
 	if(result)
 		to_chat(src, result.Join("\n"))

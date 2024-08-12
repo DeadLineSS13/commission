@@ -86,6 +86,40 @@ GLOBAL_LIST_EMPTY(respawncounts)
 //			to_chat(src, span_danger("My previous action was ignored because you've done too many in a second"))
 			return
 
+	if(href_list["_src_"] == "stat")
+		if(href_list["spload"] == "1")
+			statpanel_loaded = TRUE
+			init_panel()
+		if(href_list["modernbrowser"] == "1")
+			statpanel_loaded = TRUE
+		if(href_list["buttonpig"] == "1")
+			src << 'sound/uibutton.ogg'
+			who()
+		if(href_list["buttonchrome"] == "1")
+			src << 'sound/uibutton.ogg'
+			if(current_button == "chrome")
+				return
+			current_button = "chrome"
+			newtext(html_verbs[current_button])
+		if(href_list["buttonoptions"] == "1")
+			src << 'sound/uibutton.ogg'
+			if(current_button == "options")
+				return
+			current_button = "options"
+			newtext(html_verbs[current_button])
+		if(href_list["buttonnote"] == "1")
+			src << 'sound/uibutton.ogg'
+			if(current_button == "note")
+				return
+			current_button = "note"
+			newtext(mob.noteUpdate())
+		if(href_list["buttondynamic"])
+			src << 'sound/uibutton.ogg'
+			if(current_button == href_list["buttondynamic"])
+				return
+			current_button = href_list["buttondynamic"]
+			newtext(html_verbs[current_button])
+
 	//Logs all hrefs, except chat pings
 	if(!(href_list["_src_"] == "chat" && href_list["proc"] == "ping" && LAZYLEN(href_list) == 2))
 		log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
@@ -223,7 +257,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 /client/New(TopicData)
 	var/tdata = TopicData //save this for later use
-//	chatOutput = new /datum/chatOutput(src)
 	TopicData = null							//Prevent calls to client.Topic from connect
 
 	if(connection != "seeker" && connection != "web")//Invalid connection type.
@@ -242,8 +275,8 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		holder.owner = src
 		connecting_admin = TRUE
 	else if(GLOB.deadmins[ckey])
-		verbs += /client/proc/readmin
-		verbs += /client/proc/adminwho
+		add_verb(/client/proc/readmin)
+		add_verb(/client/proc/adminwho)
 		connecting_admin = TRUE
 	if(CONFIG_GET(flag/autoadmin))
 		if(!GLOB.admin_datums[ckey])
@@ -277,7 +310,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	fps = prefs.clientfps
 
 	if(fexists(roundend_report_file()))
-		verbs += /client/proc/show_previous_roundend_report
+		add_verb(/client/proc/show_previous_roundend_report)
 
 	var/full_version = "[byond_version].[byond_build ? byond_build : "xxx"]"
 	log_access("Login: [key_name(src)] from [address ? address : "localhost"]-[computer_id] || BYOND v[full_version]")
@@ -347,7 +380,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		set_macros()
 		update_movement_keys()
 
-//	chatOutput.start() // Starts the chat
+	chatOutput.start() // Starts the chat
 
 	if(alert_mob_dupe_login)
 		spawn()
@@ -558,6 +591,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	. = ..() //Even though we're going to be hard deleted there are still some things that want to know the destroy is happening
 	QDEL_NULL(droning_sound)
 	last_droning_sound = null
+	QDEL_NULL(chatOutput)
 	return QDEL_HINT_HARDDEL_NOW
 
 /client/proc/set_client_age_from_db(connectiontopic)
@@ -930,9 +964,9 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 /client/proc/add_verbs_from_config()
 	if(CONFIG_GET(flag/see_own_notes))
-		verbs += /client/proc/self_notes
+		add_verb(/client/proc/self_notes)
 	if(CONFIG_GET(flag/use_exp_tracking))
-		verbs += /client/proc/self_playtime
+		add_verb(/client/proc/self_playtime)
 
 
 #undef UPLOAD_LIMIT

@@ -9,20 +9,20 @@
 //	if(!fexists(CREDITS_PATH))
 //		return
 //	var/icon/credits_icon = new(CREDITS_PATH)
-//	verbs += /client/proc/ClearCredits
+//	add_verb(/client/proc/ClearCredits)
 //	var/static/list/credit_order_for_this_round
 //	if(isnull(credit_order_for_this_round))
 //		credit_order_for_this_round = list("Thanks for playing!") + (shuffle(icon_states(credits_icon)) - "Thanks for playing!")
 //		if(!credits)
 //			return
 //	sleep(CREDIT_ROLL_SPEED - CREDIT_SPAWN_SPEED)
-//	verbs -= /client/proc/ClearCredits
+//	remove_verb(/client/proc/ClearCredits)
 //	qdel(credits_icon)
 
 /client/proc/ClearCredits()
 	set name = "Hide Credits"
 	set category = "OOC"
-	verbs -= /client/proc/ClearCredits
+	remove_verb(/client/proc/ClearCredits)
 	QDEL_LIST(credits)
 	credits = null
 

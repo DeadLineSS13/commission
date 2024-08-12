@@ -63,4 +63,4 @@
 			return
 		var/datum/antagonist/new_antag = new /datum/antagonist/purishep()
 		H.mind.add_antag_datum(new_antag)
-	H.verbs |= /mob/living/carbon/human/proc/faith_test
+	H.add_verb(/mob/living/carbon/human/proc/faith_test)

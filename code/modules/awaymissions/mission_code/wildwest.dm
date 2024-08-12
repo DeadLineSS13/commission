@@ -105,7 +105,7 @@
 			if("Immortality")
 				to_chat(user, "<B>My wish is granted, but at a terrible cost...</B>")
 				to_chat(user, "The Wish Granter punishes you for my selfishness, claiming my soul and warping my body to match the darkness in my heart.")
-				user.verbs += /mob/living/carbon/proc/immortality
+				user.add_verb(/mob/living/carbon/proc/immortality)
 				user.set_species(/datum/species/shadow)
 			if("Peace")
 				to_chat(user, "<B>Whatever alien sentience that the Wish Granter possesses is satisfied with my wish. There is a distant wailing as the last of the Faithless begin to die, then silence.</B>")

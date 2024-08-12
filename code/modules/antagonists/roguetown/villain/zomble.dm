@@ -96,7 +96,7 @@
 /datum/antagonist/zombie/on_removal()
 	var/mob/living/carbon/human/zombie = owner?.current
 	if(zombie)
-		zombie.verbs -= /mob/living/carbon/human/proc/zombie_seek
+		zombie.remove_verb(/mob/living/carbon/human/proc/zombie_seek)
 		zombie.mind?.special_role = special_role
 		zombie.ambushable = ambushable
 		if(zombie.dna?.species)
@@ -181,7 +181,7 @@
 	zombie.faction += "undead"
 	zombie.faction -= "station"
 	zombie.faction -= "neutral"
-	zombie.verbs |= /mob/living/carbon/human/proc/zombie_seek
+	zombie.add_verb(/mob/living/carbon/human/proc/zombie_seek)
 	for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts)
 		if(!zombie_part.rotted && !zombie_part.skeletonized)
 			zombie_part.rotted = TRUE

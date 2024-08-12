@@ -83,7 +83,7 @@
 		H.change_stat("endurance", 2)
 	if(H.dna?.species)
 		H.dna.species.soundpack_m = new /datum/voicepack/male/knight()
-	H.verbs |= /mob/proc/haltyell
+	H.add_verb(/mob/proc/haltyell)
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
@@ -100,5 +100,5 @@
 	. = ..()
 	if(!.)
 		return
-	recruit.verbs |= /mob/proc/haltyell
+	recruit.add_verb(/mob/proc/haltyell)
 

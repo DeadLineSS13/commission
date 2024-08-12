@@ -214,15 +214,15 @@ GLOBAL_PROTECT(plevelfiveverbs)
 	var/plev = check_patreon_lvl(ckey)
 
 	if(plev > 1)
-		verbs |= GLOB.pleveloneverbs
+		add_verb(GLOB.pleveloneverbs)
 	if(plev > 2)
-		verbs |= GLOB.pleveltwoverbs
+		add_verb(GLOB.pleveltwoverbs)
 	if(plev > 3)
-		verbs |= GLOB.plevelthreeverbs
+		add_verb(GLOB.plevelthreeverbs)
 	if(plev > 4)
-		verbs |= GLOB.plevelfourverbs
+		add_verb(GLOB.plevelfourverbs)
 	if(plev > 5)
-		verbs |= GLOB.plevelfiveverbs
+		add_verb(GLOB.plevelfiveverbs)
 
 GLOBAL_LIST_EMPTY(hiderole)
 

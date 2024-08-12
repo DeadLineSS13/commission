@@ -522,40 +522,103 @@ GLOBAL_LIST_EMPTY(asset_datums)
 		"changelog.css" = 'html/changelog.css'
 	)*/
 
+/datum/asset/group/statpanel
+	children = list(
+		/datum/asset/simple/statpanel_images,
+		/datum/asset/simple/jquery,
+		/datum/asset/simple/js_content
+	)
+
+/datum/asset/simple/js_content
+	verify = TRUE
+	assets = list(
+		"prototype.js" = 'code/modules/statpanel/html/js/prototype.js',
+		"scriptaculous.js" = 'code/modules/statpanel/html/js/scriptaculous.js',
+		"effects.js" = 'code/modules/statpanel/html/js/effects.js',
+		"controls.js" = 'code/modules/statpanel/html/js/controls.js',
+		"slider.js" = 'code/modules/statpanel/html/js/slider.js',
+		"livepipe.js" = 'code/modules/statpanel/html/js/livepipe.js',
+		"scrollbar.js" = 'code/modules/statpanel/html/js/scrollbar.js',
+	)
+
+/datum/asset/simple/statpanel_images
+	verify = FALSE
+	assets = list(
+		"arcanos.png" = 'code/modules/statpanel/html/images/arcanos.png',
+		"button_chrome.png" = 'code/modules/statpanel/html/images/button_chrome.png',
+		"button_note.png" = 'code/modules/statpanel/html/images/button_note.png',
+		"button_options.png" = 'code/modules/statpanel/html/images/button_options.png',
+		"button_pig.png" = 'code/modules/statpanel/html/images/button_pig.png',
+		"cond.ttf" = 'code/modules/statpanel/html/images/cond.ttf',
+		"craft.png" = 'code/modules/statpanel/html/images/craft.png',
+		"cross.png" = 'code/modules/statpanel/html/images/cross.png',
+		"crown.png" = 'code/modules/statpanel/html/images/crown.png',
+		"dead.png" = 'code/modules/statpanel/html/images/dead.png',
+		"emotes.png" = 'code/modules/statpanel/html/images/emotes.png',
+		"fangs.png" = 'code/modules/statpanel/html/images/fangs.png',
+		"gpc.png" = 'code/modules/statpanel/html/images/gpc.png',
+		"heart.png" = 'code/modules/statpanel/html/images/heart.png',
+		"Panel.png" = 'code/modules/statpanel/html/images/Panel.png',
+		"plot.png" = 'code/modules/statpanel/html/images/plot.png',
+		"pointer.cur" = 'code/modules/statpanel/html/images/pointer.cur',
+		"PTSANS.ttf" = 'code/modules/statpanel/html/images/PTSANS.ttf',
+		"stats.png" = 'code/modules/statpanel/html/images/stats.png',
+		"stats1.png" = 'code/modules/statpanel/html/images/stats1.png',
+		"thanati.png" = 'code/modules/statpanel/html/images/thanati.png',
+		"verbs.png" = 'code/modules/statpanel/html/images/verbs.png',
+		"villain.png" = 'code/modules/statpanel/html/images/villain.png',
+		"uibutton.ogg" = 'code/modules/statpanel/html/images/uibutton.ogg',
+	)
+
 /datum/asset/group/goonchat
 	children = list(
 		/datum/asset/simple/jquery,
 		/datum/asset/simple/goonchat,
-		/datum/asset/spritesheet/goonchat,
+		/datum/asset/simple/goonchat_images,
+		/datum/asset/simple/js_content,
 		/datum/asset/simple/fontawesome
 	)
 
 
+/datum/asset/simple/goonchat_images
+	verify = FALSE
+	assets = list(
+		"chatbg.png"            			= 'code/modules/goonchat/browserassets/images/chatbg.png',
+		"chatscrollbar-bg.png"				= 'code/modules/goonchat/browserassets/images/chatscrollbar-bg.png',
+		"chatscrollbar-scrolldown.png"		= 'code/modules/goonchat/browserassets/images/chatscrollbar-scrolldown.png',
+		"chatscrollbar-scrollup.png"		= 'code/modules/goonchat/browserassets/images/chatscrollbar-scrollup.png',
+		"chatscroller-b.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-b.png',
+		"chatscroller-m.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-m.png',
+		"chatscroller-t.png"				= 'code/modules/goonchat/browserassets/images/chatscroller-t.png',
+		"chatshadow.png"					= 'code/modules/goonchat/browserassets/images/chatshadow.png',
+		"helpbg.png"						= 'code/modules/goonchat/browserassets/images/helpbg.png'
+	)
+
 /datum/asset/simple/jquery
 	verify = FALSE
-/*	assets = list(
+	assets = list(
 		"jquery.min.js"            = 'code/modules/goonchat/browserassets/js/jquery.min.js',
-	)*/
+	)
 
 /datum/asset/simple/goonchat
-	verify = FALSE
-/*	assets = list(
+	verify = TRUE
+	assets = list(
 		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
 		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
-		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
-		"browserOutput_white.css"	      = 'code/modules/goonchat/browserassets/css/browserOutput.css',
-	)*/
+		"scrollbar_chat.js"             = 'code/modules/goonchat/browserassets/js/scrollbar_chat.js',
+		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css'
+	)
 
 /datum/asset/simple/fontawesome
 	verify = FALSE
-/*	assets = list(
+	assets = list(
 		"fa-regular-400.eot"  = 'html/font-awesome/webfonts/fa-regular-400.eot',
 		"fa-regular-400.woff" = 'html/font-awesome/webfonts/fa-regular-400.woff',
 		"fa-solid-900.eot"    = 'html/font-awesome/webfonts/fa-solid-900.eot',
 		"fa-solid-900.woff"   = 'html/font-awesome/webfonts/fa-solid-900.woff',
 		"font-awesome.css"    = 'html/font-awesome/css/all.min.css',
 		"v4shim.css"          = 'html/font-awesome/css/v4-shims.min.css'
-	)*/
+	)
 
 /datum/asset/simple/blackedstone_class_menu_slop_layout
 	verify = FALSE

@@ -91,7 +91,7 @@
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-	H.verbs |= /mob/proc/haltyell
+	H.add_verb(/mob/proc/haltyell)
 
 /obj/effect/proc_holder/spell/self/convertrole
 	name = "Recruit Beggar"
@@ -179,4 +179,4 @@
 	. = ..()
 	if(!.)
 		return
-	recruit.verbs |= /mob/proc/haltyell
+	recruit.add_verb(/mob/proc/haltyell)

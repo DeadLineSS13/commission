@@ -19,8 +19,8 @@
 
 /datum/outfit/job/roguetown/goblinking/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.verbs |= /mob/living/carbon/human/proc/goblinannouncement
-	//H.verbs |= /mob/living/carbon/human/proc/goblinopenslot
+	H.add_verb(/mob/living/carbon/human/proc/goblinannouncement)
+	//H.add_verb(/mob/living/carbon/human/proc/goblinopenslot)
 	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/rich

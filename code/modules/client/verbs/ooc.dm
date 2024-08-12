@@ -352,16 +352,13 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 //			return "0"
 
 /client/verb/fix_chat()
-	set name = "{FIX CHAT}"
+	set name = "Fix Chat"
 	set category = "Options"
-	set hidden = 1
-	if(!check_rights(0))
-		return
 	if (!chatOutput || !istype(chatOutput))
 		var/action = alert(src, "Invalid Chat Output data found!\nRecreate data?", "Wot?", "Recreate Chat Output data", "Cancel")
 		if (action != "Recreate Chat Output data")
 			return
-		chatOutput = new /datum/chatOutput(src)
+		chatOutput = new /datum/chatOutput (src)
 		chatOutput.start()
 		action = alert(src, "Goon chat reloading, wait a bit and tell me if it's fixed", "", "Fixed", "Nope")
 		if (action == "Fixed")
@@ -434,7 +431,6 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 					winset(src, "output", list2params(list("on-show" = "", "is-disabled" = "false", "is-visible" = "true")))
 					winset(src, "browseroutput", "is-disabled=true;is-visible=false")
 				log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window after manually calling start() and forcing a load()")
-
 
 
 /client/verb/motd()

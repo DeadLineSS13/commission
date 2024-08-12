@@ -123,13 +123,12 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 /mob/dead/observer/Initialize()
 	set_invisibility(GLOB.observer_default_invisibility)
 
-	verbs += list(
-		/mob/dead/observer/proc/dead_tele,
-		/mob/dead/observer/proc/open_spawners_menu,
-		/mob/dead/observer/proc/tray_view)
+	add_verb(/mob/dead/observer/proc/dead_tele)
+	add_verb(/mob/dead/observer/proc/open_spawners_menu)
+	add_verb(/mob/dead/observer/proc/tray_view)
 
 	if(!(istype(src, /mob/dead/observer/rogue/arcaneeye)))
-		client?.verbs += GLOB.ghost_verbs
+		client?.add_verb(GLOB.ghost_verbs)
 
 	if(icon_state in GLOB.ghost_forms_with_directions_list)
 		ghostimage_default = image(src.icon,src,src.icon_state + "")
@@ -220,8 +219,8 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	real_name = name
 
 	if(!fun_verbs)
-		verbs -= /mob/dead/observer/verb/boo
-		verbs -= /mob/dead/observer/verb/possess
+		remove_verb(/mob/dead/observer/verb/boo)
+		remove_verb(/mob/dead/observer/verb/possess)
 
 	GLOB.dead_mob_list += src
 
@@ -240,7 +239,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 /mob/dead/observer/Login()
 	. = ..()
 	if(!(istype(src, /mob/dead/observer/rogue/arcaneeye)))
-		client?.verbs += GLOB.ghost_verbs
+		client?.add_verb(GLOB.ghost_verbs)
 
 /mob/dead/observer/get_photo_description(obj/item/camera/camera)
 	if(!invisibility || camera.see_ghosts)
@@ -507,7 +506,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	SSdroning.kill_droning(src.client)
 	remove_client_colour(/datum/client_colour/monochrome)
 	client.change_view(CONFIG_GET(string/default_view))
-	client?.verbs -= GLOB.ghost_verbs
+	client?.remove_verb(GLOB.ghost_verbs)
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	mind.current.key = key
 	return TRUE
@@ -557,7 +556,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return
 
 	M.key = key
-	client.verbs -= GLOB.ghost_verbs
+	client.remove_verb(GLOB.ghost_verbs)
 //	M.Login()	//wat
 	return
 
@@ -1108,11 +1107,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			ghostimage_simple.icon_state = icon_state
 		if("fun_verbs")
 			if(fun_verbs)
-				verbs += /mob/dead/observer/verb/boo
-				verbs += /mob/dead/observer/verb/possess
+				add_verb(/mob/dead/observer/verb/boo)
+				add_verb(/mob/dead/observer/verb/possess)
 			else
-				verbs -= /mob/dead/observer/verb/boo
-				verbs -= /mob/dead/observer/verb/possess
+				remove_verb(/mob/dead/observer/verb/boo)
+				remove_verb(/mob/dead/observer/verb/possess)
 
 /mob/dead/observer/reset_perspective(atom/A)
 	if(client)

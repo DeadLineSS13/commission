@@ -88,7 +88,7 @@
 		if(!(H.hairstyle in acceptable))
 			H.hairstyle = pick(acceptable)
 			H.update_hair()
-	H.verbs |= /mob/proc/haltyell
+	H.add_verb(/mob/proc/haltyell)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
 /datum/outfit/job/roguetown/bogguardsman/proc/assign_skills(mob/living/carbon/human/bogger)

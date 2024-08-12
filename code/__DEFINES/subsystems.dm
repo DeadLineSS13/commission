@@ -136,6 +136,7 @@
 #define INIT_ORDER_PATH				-50
 #define INIT_ORDER_DISCORD			-60
 #define INIT_ORDER_PERSISTENCE		-95
+#define INIT_ORDER_STATPANELS		-97
 #define INIT_ORDER_CHAT				-100 //Should be last to ensure chat remains smooth during init.
 
 // Subsystem fire priority, from lowest to highest priority
@@ -171,6 +172,7 @@
 #define FIRE_PRIORITY_TGUI			110
 #define FIRE_PRIORITY_TICKER		200
 #define FIRE_PRIORITY_ATMOS_ADJACENCY	300
+#define FIRE_PRIORITY_STATPANEL		390
 #define FIRE_PRIORITY_CHAT			400
 #define FIRE_PRIORITY_RUNECHAT		410
 #define FIRE_PRIORITY_OVERLAYS		500
