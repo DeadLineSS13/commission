@@ -178,11 +178,15 @@ and set its desc to what you want the verb to appear as in the statpanel.
 
 
 /client/proc/optionsUpdate()
-	return "<tr><td>" + generateVerbList(list(list("OOC", "OOC"), list("Adminhelp", "Admin Help"), list(".togglefullscreen", "Toggle Fullscreen"), list("LobbyMusic", "Toggle Lobby Music"), list("FixChat", "Fix chat"))) + "</td></tr>"
+	. = "<tr><td>"
+	var/list/options = list(list("OOC", "OOC"), list("Adminhelp", "Admin Help"), list(".togglefullscreen", "Toggle Fullscreen"), list("LobbyMusic", "Toggle Lobby Music"), list("FixChat", "Fix chat"))
+	if(holder)
+		options += list(list("Deadmin", "Deadmin"), list("Readmin", "Readmin"))
+	. = "<tr><td>" + generateVerbList(options) + "</td></tr>"
 
 
 /client/proc/chromeUpdate()
-	return "<tr><td></td></tr>"
+	return "<tr><td>" + generateVerbList(list(list("Slap", "Slap"), list("Nod", "Nod"), list("Praise", "Cross"), list("Hug", "Hug"), list("Bow", "Bow"), list("Scream", "Scream"), list("Whimper", "Whimper"), list("Laugh", "Laugh"), list("Sigh", "Sigh"), list("Clearthroat", "Clear Throat"), list("Collapse", "Collapse"), list("Kiss", "Kiss"), list("LickLips", "Lick Lips"), list("Cough", "Cough"), list("SpitonSomeone", "Spit on Someone"), list("Yawn", "Yawn"), list("Wink", "Wink"), list("Grumble", "Grumble"), list("Cry", "Cry"), list("Hem", "Hem"), list("Smile", "Smile")), 2) + "</td></tr>"
 
 /mob/proc/noteUpdate()
 	return
@@ -246,9 +250,6 @@ and set its desc to what you want the verb to appear as in the statpanel.
 	if(!holder)
 		return
 	winset(src, "outputwindow.csay", "is-visible=true")
-
-/mob/living/carbon/human/New()
-	..()
 
 /mob/living/carbon/human/Login()
 	..()

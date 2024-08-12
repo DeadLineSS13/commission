@@ -74,6 +74,7 @@ GLOBAL_PROTECT(href_token)
 		return
 	GLOB.deadmins -= target
 	GLOB.admin_datums[target] = src
+	winset(src, "outputwindow.csay", "is-visible=true")
 	deadmined = FALSE
 	if (GLOB.directory[target])
 		associate(GLOB.directory[target])	//find the client for a ckey if they are connected and associate them with us
@@ -87,6 +88,7 @@ GLOBAL_PROTECT(href_token)
 		return
 	GLOB.deadmins[target] = src
 	GLOB.admin_datums -= target
+	winset(src, "outputwindow.csay", "is-visible=false")
 	deadmined = TRUE
 	var/client/C
 	if ((C = owner) || (C = GLOB.directory[target]))
