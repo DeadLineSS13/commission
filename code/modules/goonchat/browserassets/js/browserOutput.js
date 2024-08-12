@@ -313,7 +313,7 @@ function output(message, flag) {
 	if (!filteredOut) {
 		var bodyHeight = $('#scrollbar_content').height();
 		var messagesHeight = $messages.outerHeight();
-		var scrollPos = $('#scrollbar_content').scrollTop();
+		var scrollPos = $('#scrollbar_content').children('#scrollbar_content').scrollTop();
 
 		//Should we snap the output to the bottom?
 		if (bodyHeight + scrollPos >= messagesHeight - opts.scrollSnapTolerance) {
@@ -420,10 +420,8 @@ function output(message, flag) {
 	evt.initEvent("resize", true, true);
 	document.dispatchEvent(evt);
 
-	$messages.after("height ", $('#scrollbar_content').height(), "; outerHeight ", $messages.outerHeight(), "; ScrollTop ", $('#scrollbar_content').scrollTop(), " ");
-
 	if (!filteredOut && atBottom) {
-		$('#scrollbar_content').scrollTop($messages.outerHeight());
+		$('#scrollbar_content').children('#scrollbar_content').scrollTop($messages.outerHeight());
 	}
 }
 
@@ -857,7 +855,7 @@ $(function() {
 	//Mildly hacky fix for scroll issues on mob change (interface gets resized sometimes, messing up snap-scroll)
 	$(window).on('resize', function(e) {
 		if ($(this).height() !== opts.priorChatHeight) {
-			$('#scrollbar_content').scrollTop($messages.outerHeight());
+			$('#scrollbar_content').children('#scrollbar_content').scrollTop($messages.outerHeight());
 			opts.priorChatHeight = $(this).height();
 		}
 	});
@@ -871,7 +869,7 @@ $(function() {
 
 	$('body').on('click', '#newMessages', function(e) {
 		var messagesHeight = $messages.outerHeight();
-		$('#scrollbar_content').scrollTop(messagesHeight);
+		$('#scrollbar_content').children('#scrollbar_content').scrollTop(messagesHeight);
 		$('#newMessages').remove();
 		runByond('byond://winset?mapwindow.map.focus=true');
 	});
