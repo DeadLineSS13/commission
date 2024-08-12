@@ -192,8 +192,8 @@ and set its desc to what you want the verb to appear as in the statpanel.
 	newHTML += {"\
 	<span class='statstable'><table>\
 		<tr>\
-			<td><span class = 'ST smaller'>ST: 0 <BR>HT: 0 <BR>IN: 0 <BR>DX: 0 </span></th>\
-			<td><span class = 'ST smaller MINOR'>PR: 0 <BR>IM: 0 <BR>WP: 0 </span></th>\
+			<td><span class = 'ST smaller'>ST: [STASTR] <BR>CO: [STACON] <BR>EN: [STAEND] <BR>SP [STASPD] </span></th>\
+			<td><span class = 'ST smaller MINOR'>PE: [STAPER] <BR>IN: [STAINT] <BR>LU: [STALUC] </span></th>\
 		</tr>\
 	</table></span>"}
 
